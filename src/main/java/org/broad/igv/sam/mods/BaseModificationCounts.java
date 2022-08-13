@@ -118,7 +118,7 @@ public class BaseModificationCounts {
         }
     }
 
-    public int getCount(int position, Key key, AlignmentTrack.ColorOption colorOption) {
+    public int getCount(int position, Key key) {
         Map<Integer, Integer> modCounts = counts.get(key);
         if (modCounts != null && modCounts.containsKey(position)) {
             return modCounts.get(position);
@@ -132,7 +132,7 @@ public class BaseModificationCounts {
         if (modLikelihoods != null && modLikelihoods.containsKey(position)) {
             return modLikelihoods.get(position);
         } else {
-            return getCount(position, key, null) * 255;
+            return getCount(position, key) * 255;
         }
     }
 
@@ -146,7 +146,10 @@ public class BaseModificationCounts {
             String modification = entry.getKey().modification;
             Map<Integer, Integer> modCounts = entry.getValue();
             if (modCounts.containsKey(position)) {
+                int count = modCounts.get(position);
+                float averageLikelihood = (float) (getLikelhoodSum(position, entry.getKey())) / (count * 255);
                 buffer.append("Modification: " + modification + " (" + modCounts.get(position) + ")<br>");
+                buffer.append("Average Likelihood: " + averageLikelihood + "<br>");
             }
         }
         return buffer.toString();

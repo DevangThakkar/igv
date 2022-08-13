@@ -602,9 +602,11 @@ public class CoverageTrack extends AbstractTrack implements ScalableTrack {
 
             Graphics2D graphics = context.getGraphics();
 
+            // Loop over all modifications.  "key" is a combination of base, strand, and modification
             for (BaseModificationCounts.Key key : baseCounts.getAllModifications()) {
 
-                int count = baseCounts.getCount(pos, key, colorOption);
+                // The number of modifications at this position
+                int count = baseCounts.getCount(pos, key);
 
                 if (barHeight > 0 && count > 0) {
 
@@ -613,11 +615,18 @@ public class CoverageTrack extends AbstractTrack implements ScalableTrack {
                     char modStrand = key.getStrand();
                     String modification = key.getModification();
 
-                    int cCount = modStrand == '+' ?
+                    // The total number sites potentially modifiable.
+                    // Note this can include snps if snp == complement of modification base (e.g. G on negative strand for C+m)
+                    double modifiableCount = modStrand == '+' ?
                             alignmentCounts.getPosCount(pos, base) + alignmentCounts.getNegCount(pos, complement) :
                             alignmentCounts.getPosCount(pos, complement) + alignmentCounts.getNegCount(pos, base);
 
-                    int calledBarHeight = (int) ((((float) count) / cCount) * barHeight);
+
+                    // Base (including complement)  and total count.  See discussion at https://github.com/igvteam/igv/issues/1185
+                    double bCount = alignmentCounts.getCount(pos, base) + (alignmentCounts.getCount(pos, complement));
+                    double tCount = alignmentCounts.getTotalCount(pos);
+
+                    int calledBarHeight = (int) ((bCount / tCount) * barHeight);   // * (count / modifiableCount) <= accounts for no-calls
                     Color noModColor = BaseModificationUtils.getModColor(modification, (byte) 0, colorOption);
                     Color modColor = BaseModificationUtils.getModColor(modification, (byte) 255, colorOption);
 
