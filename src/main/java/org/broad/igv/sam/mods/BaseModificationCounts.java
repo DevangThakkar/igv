@@ -147,9 +147,8 @@ public class BaseModificationCounts {
             Map<Integer, Integer> modCounts = entry.getValue();
             if (modCounts.containsKey(position)) {
                 int count = modCounts.get(position);
-                float averageLikelihood = (float) (getLikelhoodSum(position, entry.getKey())) / (count * 255);
-                buffer.append("Modification: " + modification + " (" + modCounts.get(position) + ")<br>");
-                buffer.append("Average Likelihood: " + averageLikelihood + "<br>");
+                int averageLikelihood = (int) (100.0 * (getLikelhoodSum(position, entry.getKey())) / (count * 255.0));
+                buffer.append("Modification: " + modification + " (" + count + ", " + averageLikelihood + "%)<br>");
             }
         }
         return buffer.toString();

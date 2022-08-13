@@ -626,7 +626,7 @@ public class CoverageTrack extends AbstractTrack implements ScalableTrack {
                     double bCount = alignmentCounts.getCount(pos, base) + (alignmentCounts.getCount(pos, complement));
                     double tCount = alignmentCounts.getTotalCount(pos);
 
-                    int calledBarHeight = (int) ((bCount / tCount) * barHeight);   // * (count / modifiableCount) <= accounts for no-calls
+                    int calledBarHeight = (int) ((bCount / tCount) * barHeight * (count / modifiableCount));
                     Color noModColor = BaseModificationUtils.getModColor(modification, (byte) 0, colorOption);
                     Color modColor = BaseModificationUtils.getModColor(modification, (byte) 255, colorOption);
 
