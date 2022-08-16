@@ -231,6 +231,8 @@ public class SpliceJunctionTrack extends FeatureTrack {
         return false;
     }
 
+    //override this back to the default
+    @Override
     public float getRegionScore(String chr, int start, int end, int zoom, RegionScoreType type, String frameName) {
         return 0;
     }

@@ -220,9 +220,13 @@ public interface Track extends Persistable {
 
     String getValueStringAt(String chr, double position, int mouseX, int mouseY, ReferenceFrame frame);
 
-    float getRegionScore(String chr, int start, int end, int zoom, RegionScoreType type, String frameName);
+    default float getRegionScore(String chr, int start, int end, int zoom, RegionScoreType type, String frameName) {
+        return 0f;
+    }
 
-    float getRegionScore(String chr, int start, int end, int zoom, RegionScoreType type, String frameName, List<Track> tracks);
+    default float getRegionScore(String chr, int start, int end, int zoom, RegionScoreType type, String frameName, List<Track> tracks){
+        return 0f;
+    }
 
     void setFontSize(int h);
 

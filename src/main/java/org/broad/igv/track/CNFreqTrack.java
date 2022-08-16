@@ -157,8 +157,9 @@ public class CNFreqTrack extends AbstractTrack {
     }
 
 
+    @Override
     public float getRegionScore(String chr, int start, int end, int zoom, RegionScoreType type, String frameName) {
-        return Float.MAX_VALUE;  //To change body of implemented methods use File | Settings | File Templates.
+        return Float.MAX_VALUE;
     }
 
     @Override
